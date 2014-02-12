@@ -481,7 +481,7 @@ final class ServerConnectionOpenListener  implements ChannelListener<ConnectedMe
                 int p = sendBuffer.position();
                 try {
                     sendBuffer.put(Protocol.AUTH_COMPLETE);
-                    if (SaslUtils.evaluateResponse(saslServer, sendBuffer, buffer)) {
+                    if (SaslUtils.evaluateResponse(saslServer, sendBuffer, buffer.getResource())) {
                         server.tracef("Server sending authentication complete");
                         final Collection<Principal> principals = createPrincipals();
                         final UserInfo userInfo = authorizingCallbackHandler.createUserInfo(principals);
