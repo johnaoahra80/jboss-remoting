@@ -335,8 +335,10 @@ final class RemoteConnectionChannel extends AbstractHandleableCloseable<Channel>
                 byteBuffer.putInt(channelId);
                 byteBuffer.flip();
                 ConnectedMessageChannel channel = connection.getChannel();
-                Channels.sendBlocking(channel, byteBuffer);
-                Channels.flushBlocking(channel);
+                synchronized (connection.getLock()) {
+                    Channels.sendBlocking(channel, byteBuffer);
+                    Channels.flushBlocking(channel);
+                }
             } finally {
                 pooled.free();
             }
